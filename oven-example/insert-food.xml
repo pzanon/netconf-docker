@@ -1,0 +1,3 @@
+<insert-food xmlns="urn:sysrepo:oven">
+  <time>on-oven-ready</time>
+</insert-food>

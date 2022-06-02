@@ -72,6 +72,23 @@ RUN cd /root/netopeer2/build ; make
 RUN cd /root/netopeer2/build ; ldconfig
 RUN cd /root/netopeer2/build ; make install
 
+# configure OVEN example
+RUN mkdir -p /usr/local/lib/sysrepo-plugind/plugins
+RUN cp /root/sysrepo/build/examples/oven.so /usr/local/lib/sysrepo-plugind/plugins/
+
+# copy OVEN XMLs to /root/oven-example
+RUN mkdir -p /root/oven-example
+COPY oven-example/oven-config.xml /root/oven-example/
+COPY oven-example/insert-food.xml /root/oven-example/
+
+# install OVEN YANG model to sysrepo
+RUN sysrepoctl --install /root/sysrepo/examples/plugin/oven.yang
+
 ENTRYPOINT service ssh start > /dev/null 2>&1; \
            echo "NETCONF Stack Compiled"; \
+           echo "--------------------------------------------------------------"; \
+           echo "To start sysrepo daemon: sysrepo-plugind --verbosity 2 --debug"; \
+           echo "To start netconf server: netopeer2-server"; \
+           echo "To start netconf client: netopeer2-cli"; \
+           echo "--------------------------------------------------------------\n"; \
            /bin/bash
