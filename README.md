@@ -16,12 +16,12 @@
 `# netopeer2-cli`
 
 ### Some CLI commands:
-`
-netopeer2-cli > connect
-netopeer2-cli > user-rpc --content /root/oven-example/insert-
-food.xml
-netopeer2-cli > get-config --source running
-netopeer2-cli > edit-config --target running --
-config=/root/oven-example/oven-config.xml
-netopeer2-cli > get-config --source running
-`
+`netopeer2-cli > connect`
+
+`netopeer2-cli > user-rpc --content /root/oven-example/insert-food.xml`
+
+`netopeer2-cli > get-config --source running`
+
+`netopeer2-cli > edit-config --target running --config=/root/oven-example/oven-config.xml`
+
+`netopeer2-cli > get-config --source running`
