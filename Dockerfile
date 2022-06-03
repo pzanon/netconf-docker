@@ -1,5 +1,3 @@
-# MIT license
-
 FROM ubuntu:22.04
 
 ENV LANG=en_US.UTF-8
@@ -32,7 +30,9 @@ RUN ssh-keygen -A
 
 # permit root ssh login
 RUN sed -i "s+#PermitRootLogin prohibit-password+PermitRootLogin prohibit-password+g" /etc/ssh/sshd_config
-#COPY --chown=root:root id_rsa.pub /root/.ssh/authorized_keys
+
+# set root password to 123456
+RUN echo 'root:123456' | chpasswd
 
 WORKDIR /root
 
@@ -86,9 +86,9 @@ RUN sysrepoctl --install /root/sysrepo/examples/plugin/oven.yang
 
 ENTRYPOINT service ssh start > /dev/null 2>&1; \
            echo "NETCONF Stack Compiled"; \
-           echo "--------------------------------------------------------------"; \
-           echo "To start sysrepo daemon: sysrepo-plugind --verbosity 2 --debug"; \
-           echo "To start netconf server: netopeer2-server"; \
-           echo "To start netconf client: netopeer2-cli"; \
-           echo "--------------------------------------------------------------\n"; \
+           echo "--------------------------------------------------------------------"; \
+           echo " Step 1: run SYSREPO daemon: sysrepo-plugind --verbosity 2 --debug"; \
+           echo " Step 2: run NETCONF server: netopeer2-server"; \
+           echo " Step 3: use NETCONF CLI client: netopeer2-cli"; \
+           echo "--------------------------------------------------------------------\n"; \
            /bin/bash
