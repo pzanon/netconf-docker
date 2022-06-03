@@ -1,5 +1,9 @@
 # NETCONF Stack Config/Compile/Build
 
+## Running docker
+`# docker run --name netconf-server -it -p 8830:830/tcp DOCKER_NAME`
+
+## Inside docker container
 ### Start sysrepo daemon:
 `# sysrepo-plugind --verbosity 2 --debug & `
 
