@@ -34,52 +34,42 @@ RUN sed -i "s+#PermitRootLogin prohibit-password+PermitRootLogin prohibit-passwo
 # set root password to 123456
 RUN echo 'root:123456' | chpasswd
 
+# clone libs repositories
 WORKDIR /root
-
-# install libyang
 RUN git clone --branch devel https://github.com/CESNET/libyang.git
-RUN mkdir -p /root/libyang/build
-RUN cd /root/libyang/build  ; cmake ..
-RUN cd /root/libyang/build/ ; make
-RUN cd /root/libyang/build/ ; make install
-
-# install sysrepo
 RUN git clone --branch devel https://github.com/sysrepo/sysrepo.git
-RUN mkdir -p /root/sysrepo/build
-RUN cd /root/sysrepo/build/ ; cmake ..
-RUN cd /root/sysrepo/build/ ; make
-RUN cd /root/sysrepo/build/ ; make install
-
-# install libssh (required bu libnetconf2)
 RUN git clone http://git.libssh.org/projects/libssh.git
-RUN mkdir -p /root/libssh/build
-RUN cd /root/libssh/build ; cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-RUN cd /root/libssh/build ; make
-RUN cd /root/libssh/build ; make install
-
-# install libnetconf2
 RUN git clone --branch devel https://github.com/CESNET/libnetconf2.git
-RUN mkdir -p /root/libnetconf2/build
-RUN cd /root/libnetconf2/build ; cmake ..
-RUN cd /root/libnetconf2/build ; make
-RUN cd /root/libnetconf2/build ; make install
-
-# install netopeer2
 RUN git clone --branch devel https://github.com/CESNET/netopeer2.git
-RUN mkdir -p /root/netopeer2/build
-RUN cd /root/netopeer2/build ; cmake ..
-RUN cd /root/netopeer2/build ; make
-RUN cd /root/netopeer2/build ; ldconfig
-RUN cd /root/netopeer2/build ; make install
+
+# build libyang
+WORKDIR /root/libyang/build
+RUN cmake .. ; make ; make install
+
+# build sysrepo
+WORKDIR /root/sysrepo/build
+RUN cmake .. ; make ; make install
+
+# build libssh (required bu libnetconf2)
+WORKDIR /root/libssh/build
+RUN cmake -DCMAKE_INSTALL_PREFIX=/usr .. ; make ; make install
+
+# build libnetconf2
+WORKDIR /root/libnetconf2/build
+RUN cmake .. ; make ; make install
+
+# build netopeer2
+WORKDIR /root/netopeer2/build
+RUN cmake .. ; make ; ldconfig ; make install
 
 # configure OVEN example
-RUN mkdir -p /usr/local/lib/sysrepo-plugind/plugins
-RUN cp /root/sysrepo/build/examples/oven.so /usr/local/lib/sysrepo-plugind/plugins/
+WORKDIR /usr/local/lib/sysrepo-plugind/plugins
+RUN cp /root/sysrepo/build/examples/oven.so .
 
 # copy OVEN XMLs to /root/oven-example
-RUN mkdir -p /root/oven-example
-COPY oven-example/oven-config.xml /root/oven-example/
-COPY oven-example/insert-food.xml /root/oven-example/
+WORKDIR /root/oven-example
+COPY oven-example/oven-config.xml .
+COPY oven-example/insert-food.xml .
 
 # install OVEN YANG model to sysrepo
 RUN sysrepoctl --install /root/sysrepo/examples/plugin/oven.yang
