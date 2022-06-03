@@ -4,6 +4,9 @@
 `# docker run --name netconf-server -it -p 8830:830/tcp DOCKER_NAME`
 
 ## Inside docker container
+### First add a password to root user, remember this password you will need to use in CLI:
+`# passwd`
+
 ### Start sysrepo daemon:
 `# sysrepo-plugind --verbosity 2 --debug & `
 
@@ -12,9 +15,6 @@
 
 ### Start netconf server:
 `# netopeer2-server`
-
-### First add a password to root user, remember this password you will need to use in CLI:
-`# passwd`
 
 ### Start netconf client:
 `# netopeer2-cli`
