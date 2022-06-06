@@ -9,7 +9,7 @@
 
 ## Inside docker container
 ### If you want any notification, you can run:
-`# ./sysrepo/build/examples/notif_subscribe_example oven`
+`# ./sysrepo/build/examples/notif_subscribe_example oven &`
 
 ### NETCONF CLI client:
 `# netopeer2-cli`
