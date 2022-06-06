@@ -2,17 +2,20 @@
 
 ## Running docker
 `# docker run --name netconf-server -it -p 8830:830/tcp DOCKER_NAME`
-**sysrepo daemon and netconf server will start on boot.**
+
+## Inside docker container
+
+**SYSREPO daemon and NETCONF server:**
 
     # sysrepo-plugind --verbosity 2 --debug & 
     # netopeer2-server
 
-## Inside docker container
 ### If you want any notification, you can run:
-`# ./sysrepo/build/examples/notif_subscribe_example oven &`
+    # ./sysrepo/build/examples/notif_subscribe_example oven &
 
 ### NETCONF CLI client:
-`# netopeer2-cli`
+    
+    # netopeer2-cli
 
 ### NETCONF CLI commands:
     netopeer2-cli > connect
