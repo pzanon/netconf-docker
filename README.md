@@ -1,5 +1,8 @@
 # NETCONF Stack Config/Compile/Build
 
+## Building docker image
+`# docker build -t netconf-image netconf-docker`
+
 ## Running docker
 `# docker run --name netconf-server -it -p 8830:830/tcp DOCKER_NAME`
 
