@@ -18,7 +18,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y \
       locales \
       libpcre2-dev \
       libssl-dev \
-      zlib1g-dev
+      zlib1g-dev \
+      libpam0g-dev
 
 # update locale
 RUN sed -i -e "s/# $LANG.*/$LANG UTF-8/" /etc/locale.gen
